@@ -60,6 +60,10 @@ function makeSentenceLikeJustin(wordArray) {
   return sentence;
 }
 
+function makeSentenceWithJoin(words) {
+  return words.join(" ") + ".";
+}
+
 let sentence = makeSentenceLikeJustin(['This', 'is', 'an', 'example', 'sentence']);
 console.log(sentence);
 // outputs "This is an example sentence."
