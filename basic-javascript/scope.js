@@ -67,3 +67,38 @@ function makeSentenceWithJoin(words) {
 let sentence = makeSentenceLikeJustin(['This', 'is', 'an', 'example', 'sentence']);
 console.log(sentence);
 // outputs "This is an example sentence."
+
+/*
+The web is built with HTML strings like "<i>Yay</i>" which draws Yay as italic text. In this example, the "i" tag makes <i> and </i> which surround the word "Yay". Given tag and word strings, create the HTML string with tags around the word, e.g. "<i>Yay</i>".
+*/
+function makeTags(tag, text) {
+  let openTag  = "<" + tag + ">";
+  let closeTag = "</" + tag + ">";
+
+  // return `<${tag}>${text}</${tag}>`
+  return openTag + text + closeTag;
+}
+
+makeTags("i", "Hello world");    // "<i>Hello world</i>"
+makeTags("p", "Hello world");    // "<p>Hello world</p>"
+makeTags("span", "My sentence"); // "<span>My sentence</span>"
+
+/*
+Create a function that that accepts a sentence as a string and returns the longest word in the sentence as a string with just that word.
+*/
+function findLongestWord(sentence) {
+  let wordArray = sentence.split(" ");
+  let longestWord = "";
+
+  // Loop over every element and find the longest word
+  for (let word of wordArray) {
+    if (word.length > longestWord.length) {
+      longestWord = word;
+    }
+  }
+
+  return longestWord;
+}
+
+let sentence = 'Hello sunshine';
+console.log(findLongestWord(sentence)); // 'sunshine'
