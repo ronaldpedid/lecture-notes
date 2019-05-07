@@ -48,3 +48,27 @@ let myReducer = (prev, curr) => {
 
 let numFemaleHeroes = heroes.reduce(myReducer, 0);
 console.log(numFemaleHeroes);
+
+let nums = [1, 2, 3, 4]; // 2.5
+
+let sum = nums.reduce((prev, curr) => {
+  return prev + curr;
+}, 0);
+console.log(sum);
+
+let arrays = [[1, 2, 3], [4, 5], [6]];
+// Your code here.
+let flatArray = arrays.reduce((prev, curr) => [...prev, ...curr]);
+
+// → [1, 2, 3, 4, 5, 6]
+console.log(flatArray);
+
+let average = nums.reduce((prev, curr, index) => {
+  if (index === nums.length - 1) {
+    return (prev + curr) / nums.length;
+  }
+
+  return prev + curr;
+});
+
+console.log(average);
