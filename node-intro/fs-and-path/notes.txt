@@ -1,0 +1,2 @@
+The "fs" library is a built-in library in node.
+"fs" stands for "file system".
