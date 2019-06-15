@@ -35,4 +35,32 @@ router.get("/", (req, res) => {
   res.json(puppies);
 });
 
+router.get("/:id", (req, res) => {
+  let id = req.params.id;
+  let puppy = puppies.find(puppy => puppy.id == id);
+
+  if (!puppy) {
+    return res.status(404).send();
+  }
+
+  res.json(puppy);
+});
+
+router.post("/", (req, res) => {
+  puppies.push(req.body);
+
+  res.json(req.body);
+});
+
+// DELETE  /puppies/2
+router.delete("/:id", (req, res) => {
+  let id = req.params.id;
+
+  let index = puppies.findIndex(puppy => puppy.id == id);
+
+  let deletedPuppies = puppies.splice(index, 1);
+
+  res.json(deletedPuppies[0]);
+});
+
 module.exports = router;
