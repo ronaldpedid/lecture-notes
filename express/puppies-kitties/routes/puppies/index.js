@@ -63,4 +63,17 @@ router.delete("/:id", (req, res) => {
   res.json(deletedPuppies[0]);
 });
 
+router.put("/:id", (req, res) => {
+  let id = req.params.id;
+
+  let puppy = puppies.find(puppy => puppy.id == id);
+
+  puppy.name = req.body.name;
+  puppy.breed = req.body.breed;
+  puppy.likes = req.body.likes;
+  puppy.dislikes = req.body.dislikes;
+
+  res.json(puppy);
+});
+
 module.exports = router;

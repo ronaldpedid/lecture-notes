@@ -24,7 +24,7 @@ const kitties = [
 
 const router = require("express").Router();
 
-router.get("/", (req, res) => {
+router.get("/", (req, res, next) => {
   res.json(kitties);
 });
 
