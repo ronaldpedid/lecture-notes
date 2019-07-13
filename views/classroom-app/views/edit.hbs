@@ -1,0 +1,9 @@
+<h1>Add a Student</h1>
+<p>
+  <form action="/edit" method="POST">
+    Name: <input type="text" name="name" value="{{ student.name }}" />
+    <br/>
+    <input type="hidden" name="id" value="{{ student.id }}" />
+    <button type="submit">Submit</button>
+  </form>
+</p>
