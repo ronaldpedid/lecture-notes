@@ -1,0 +1,17 @@
+<h1>
+  {{#if student}}
+    Update a Student
+  {{else}}
+    Add a Student
+  {{/if}}
+</h1>
+<p>
+  <form action="/edit" method="POST">
+    <div class="form-group">
+      Name: <input class="form-control" type="text" name="name" value="{{ student.name }}" />
+    </div>
+    <br/>
+    <input type="hidden" name="id" value="{{ student.id }}" />
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+</p>
