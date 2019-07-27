@@ -1,0 +1,16 @@
+<h1>Student List</h1>
+<p>
+  <a class="btn btn-primary" href="/edit">Add Student</a>
+</p>
+<table id="student-list">
+  <tr>
+    <th>Name</th>
+    <th></th>
+  </tr>
+  {{#each students}}
+  <tr>
+    <td>{{ this.name }}</td>
+    <td><a class="btn btn-primary btn-sm" href="/edit/{{ this.id }}">edit</a> <a class="btn btn-primary btn-sm" href="/delete/{{ this.id }}">delete</a></td>
+  </tr>
+  {{/each}}
+</table>

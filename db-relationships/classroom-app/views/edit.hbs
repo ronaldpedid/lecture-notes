@@ -1,0 +1,25 @@
+<h1>
+  {{#if student}}
+  Update a Student
+  {{else}}
+  Add a Student
+  {{/if}}
+</h1>
+<p>
+  <form action="/edit" method="POST">
+    <div class="form-group">
+      Name: <input class="form-control" type="text" name="name" value="{{ student.name }}" />
+    </div>
+    <br />
+    <div class="form-group">
+      Email: <input class="form-control" type="text" name="email" />
+    </div>
+    <br />
+    <div class="form-group">
+      Phone: <input class="form-control" type="tel" name="phone" value="{{ student.phoneNumbers.[0].number }}" />
+    </div>
+    <br />
+    <input type="hidden" name="id" value="{{ student.id }}" />
+    <button class="btn btn-primary" type="submit">Submit</button>
+  </form>
+</p>
