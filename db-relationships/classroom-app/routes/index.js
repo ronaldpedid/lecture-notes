@@ -4,8 +4,9 @@ const User = require("../db").User;
 const PhoneNumber = require("../db").PhoneNumber;
 const passport = require("passport");
 const isLoggedIn = require("../controllers/auth-controller").isLoggedIn;
-const formidableMiddleware = require('express-formidable');
 const path = require("path");
+const multer = require("multer");
+const upload = multer({ dest: path.resolve(process.env.HOME, "uploads") });
 
 router.get("/login", (req, res) => {
   res.render("login", { flashes: req.flash("error") });
@@ -51,15 +52,7 @@ router.get("/edit", (req, res) => {
   res.render("edit");
 });
 
-router.post("/image-upload", formidableMiddleware({ uploadDir: path.resolve(process.env.HOME, "uploads"), keepExtensions: true }), async (req, res) => {
-  const student = await Student.findByPk(req.fields.id);
-  student.image = path.basename(req.files["image"].path);
-  await student.save();
-
-  res.redirect("/");
-});
-
-router.post("/edit", async (req, res) => {
+router.post("/edit", upload.single('image'), async (req, res) => {
   let { phone, id, name, email } = req.body;
   let student;
 
@@ -73,10 +66,21 @@ router.post("/edit", async (req, res) => {
     student = await Student.findByPk(id);
     student.name = name;
     // student.email = email;
+
+    if (req.file) {
+      student.image = req.file.filename;
+    }
+
     await student.save();
   }
   else {
-    student = await Student.create(req.body);
+    let studentObj = { ...req.body }; // create a copy of the req body object.
+
+    if (req.file) {
+      studentObj.image = req.file.filename; // if a file was uploaded, then assign the file name to the image property
+    }
+
+    student = await Student.create(studentObj);
   }
 
   if (Array.isArray(phone)) {
