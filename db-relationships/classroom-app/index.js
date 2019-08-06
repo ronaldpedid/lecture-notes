@@ -7,6 +7,7 @@ const session = require("express-session");
 const flash = require("connect-flash");
 const GithubStrategy = require("passport-github2").Strategy;
 const User = require("./db").User;
+const path = require("path");
 
 const app = express();
 
@@ -26,7 +27,6 @@ passport.use(new GithubStrategy({
   callbackURL: "http://localhost:3000/auth/callback"
 },
   (accessToken, refreshToken, profile, done) => {
-    console.log(profile);
     User.findOrCreate({ where: { username: profile.username } })
       .then(([user, created]) => {
         done(null, user);
@@ -39,6 +39,7 @@ passport.use(new GithubStrategy({
 passport.serializeUser(db.User.serializeUser());
 passport.deserializeUser(db.User.deserializeUser());
 app.use(express.static("public"));
+app.use("/images", express.static(path.resolve(process.env.HOME, "uploads")));
 app.use(express.urlencoded());
 app.use(studentRouter);
 

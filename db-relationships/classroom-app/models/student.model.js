@@ -12,6 +12,9 @@ module.exports = (db) => {
     },
     name: {
       type: db.Sequelize.STRING
+    },
+    image: {
+      type: db.Sequelize.STRING
     }
   });
 

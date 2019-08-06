@@ -4,6 +4,8 @@ const User = require("../db").User;
 const PhoneNumber = require("../db").PhoneNumber;
 const passport = require("passport");
 const isLoggedIn = require("../controllers/auth-controller").isLoggedIn;
+const formidableMiddleware = require('express-formidable');
+const path = require("path");
 
 router.get("/login", (req, res) => {
   res.render("login", { flashes: req.flash("error") });
@@ -49,11 +51,25 @@ router.get("/edit", (req, res) => {
   res.render("edit");
 });
 
+router.post("/image-upload", formidableMiddleware({ uploadDir: path.resolve(process.env.HOME, "uploads"), keepExtensions: true }), async (req, res) => {
+  const student = await Student.findByPk(req.fields.id);
+  student.image = path.basename(req.files["image"].path);
+  await student.save();
+
+  res.redirect("/");
+});
+
 router.post("/edit", async (req, res) => {
   let { phone, id, name, email } = req.body;
   let student;
 
   if (id) {
+    await PhoneNumber.destroy({
+      where: {
+        studentId: id
+      }
+    });
+
     student = await Student.findByPk(id);
     student.name = name;
     // student.email = email;
@@ -63,8 +79,12 @@ router.post("/edit", async (req, res) => {
     student = await Student.create(req.body);
   }
 
-  let studentPhone = await PhoneNumber.create({ number: phone });
-  await studentPhone.setStudent(student);
+  if (Array.isArray(phone)) {
+    for (let num of phone) {
+      let studentPhone = await PhoneNumber.create({ number: num });
+      await studentPhone.setStudent(student);
+    }
+  }
 
   res.redirect("/");
 });
@@ -78,7 +98,6 @@ router.get("/edit/:id", async (req, res) => {
       }
     ]
   });
-  console.log(student);
 
   res.render("edit", { student });
 });

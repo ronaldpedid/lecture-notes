@@ -10,16 +10,45 @@
     <div class="form-group">
       Name: <input class="form-control" type="text" name="name" value="{{ student.name }}" />
     </div>
-    <br />
     <div class="form-group">
       Email: <input class="form-control" type="text" name="email" />
     </div>
-    <br />
-    <div class="form-group">
-      Phone: <input class="form-control" type="tel" name="phone" value="{{ student.phoneNumbers.[0].number }}" />
+    <div id="phoneNumbers">
+      {{#each student.phoneNumbers}}
+      <div class="form-group">
+        Phone: <input class="form-control" type="tel" name="phone[]" value="{{ this.number }}" />
+      </div>
+      {{/each}}
     </div>
+    <button class="btn btn-secondary" onclick="addPhoneInput(event)">Add Phone Number</button>
+    <br />
     <br />
     <input type="hidden" name="id" value="{{ student.id }}" />
     <button class="btn btn-primary" type="submit">Submit</button>
   </form>
 </p>
+<p>
+  {{#if student}}
+  <form action="/image-upload" method="POST" enctype="multipart/form-data">
+    <div class="form-group">
+      Image: <input class="form-control-file" type="file" name="image" />
+    </div>
+    <input type="hidden" name="id" value="{{ student.id }}" />
+    <button class="btn btn-primary" type="submit">Upload image</button>
+  </form>
+  {{/if}}
+</p>
+<script>
+  function addPhoneInput(event) {
+    event.preventDefault();
+    console.log("clicked addPhoneInput");
+
+    $("#phoneNumbers").append(
+      `
+      <div class="form-group">
+        Phone: <input class="form-control" type="tel" name="phone[]" />
+      </div>
+      `
+    );
+  }
+</script>

@@ -2,13 +2,15 @@
 <p>
   <a class="btn btn-primary" href="/edit">Add Student</a>
 </p>
-<table id="student-list">
+<table id="student-list" class="table">
   <tr>
+    <th>Image</th>
     <th>Name</th>
     <th></th>
   </tr>
   {{#each students}}
   <tr>
+    <td><img style="width: 50px; height: 50px; border-radius: 50%" src="/images/{{ this.image }}" /></td>
     <td>{{ this.name }}</td>
     <td><a class="btn btn-primary btn-sm" href="/edit/{{ this.id }}">edit</a> <a class="btn btn-primary btn-sm" href="/delete/{{ this.id }}">delete</a></td>
   </tr>
