@@ -52,7 +52,7 @@ router.get("/edit", (req, res) => {
   res.render("edit");
 });
 
-router.post("/edit", upload.single('image'), async (req, res) => {
+router.post("/edit", upload.single("image"), async (req, res) => {
   let { phone, id, name, email } = req.body;
   let student;
 
@@ -66,21 +66,15 @@ router.post("/edit", upload.single('image'), async (req, res) => {
     student = await Student.findByPk(id);
     student.name = name;
     // student.email = email;
-
-    if (req.file) {
-      student.image = req.file.filename;
-    }
-
     await student.save();
   }
   else {
-    let studentObj = { ...req.body }; // create a copy of the req body object.
+    student = await Student.create(req.body);
+  }
 
-    if (req.file) {
-      studentObj.image = req.file.filename; // if a file was uploaded, then assign the file name to the image property
-    }
-
-    student = await Student.create(studentObj);
+  if (req.file) {
+    student.image = req.file.filename;
+    await student.save();
   }
 
   if (Array.isArray(phone)) {
