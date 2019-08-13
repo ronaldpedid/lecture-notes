@@ -4,8 +4,9 @@ const User = require("../db").User;
 const PhoneNumber = require("../db").PhoneNumber;
 const passport = require("passport");
 const isLoggedIn = require("../controllers/auth-controller").isLoggedIn;
-const formidableMiddleware = require('express-formidable');
 const path = require("path");
+const multer = require("multer");
+const upload = multer({ dest: path.resolve(process.env.HOME, "uploads") });
 
 router.get("/login", (req, res) => {
   res.render("login", { flashes: req.flash("error") });
@@ -51,15 +52,7 @@ router.get("/edit", (req, res) => {
   res.render("edit");
 });
 
-router.post("/image-upload", formidableMiddleware({ uploadDir: path.resolve(process.env.HOME, "uploads"), keepExtensions: true }), async (req, res) => {
-  const student = await Student.findByPk(req.fields.id);
-  student.image = path.basename(req.files["image"].path);
-  await student.save();
-
-  res.redirect("/");
-});
-
-router.post("/edit", async (req, res) => {
+router.post("/edit", upload.single("image"), async (req, res) => {
   let { phone, id, name, email } = req.body;
   let student;
 
@@ -77,6 +70,11 @@ router.post("/edit", async (req, res) => {
   }
   else {
     student = await Student.create(req.body);
+  }
+
+  if (req.file) {
+    student.image = req.file.filename;
+    await student.save();
   }
 
   if (Array.isArray(phone)) {

@@ -43,6 +43,6 @@ app.use("/images", express.static(path.resolve(process.env.HOME, "uploads")));
 app.use(express.urlencoded());
 app.use(studentRouter);
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
   console.log("Now listening on port 3000");
 });

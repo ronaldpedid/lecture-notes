@@ -1,14 +1,20 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize("classroom", "root", "rootroot",
+const sequelize = new Sequelize("classroom", process.env.DB_USER, process.env.DB_PASSWORD,
   {
-    dialect: "mariadb",
-    host: "localhost",
+    dialect: process.env.DB_DIALECT,
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
     pool: {
       max: 5,
       min: 0,
       acquire: 30000,
       idle: 10000,
     },
+    dialectOptions: {
+      options: {
+        encrypt: (process.env.DB_ENCRYPT === 'true')
+      }
+    }
   },
 );
 

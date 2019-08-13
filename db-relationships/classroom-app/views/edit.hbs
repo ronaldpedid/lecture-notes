@@ -6,12 +6,15 @@
   {{/if}}
 </h1>
 <p>
-  <form action="/edit" method="POST">
+  <form action="/edit" method="POST" enctype="multipart/form-data">
     <div class="form-group">
       Name: <input class="form-control" type="text" name="name" value="{{ student.name }}" />
     </div>
     <div class="form-group">
       Email: <input class="form-control" type="text" name="email" />
+    </div>
+    <div class="form-group">
+      Image: <input class="form-control-file" type="file" name="image" />
     </div>
     <div id="phoneNumbers">
       {{#each student.phoneNumbers}}
@@ -26,17 +29,6 @@
     <input type="hidden" name="id" value="{{ student.id }}" />
     <button class="btn btn-primary" type="submit">Submit</button>
   </form>
-</p>
-<p>
-  {{#if student}}
-  <form action="/image-upload" method="POST" enctype="multipart/form-data">
-    <div class="form-group">
-      Image: <input class="form-control-file" type="file" name="image" />
-    </div>
-    <input type="hidden" name="id" value="{{ student.id }}" />
-    <button class="btn btn-primary" type="submit">Upload image</button>
-  </form>
-  {{/if}}
 </p>
 <script>
   function addPhoneInput(event) {
