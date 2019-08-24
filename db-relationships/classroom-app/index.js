@@ -8,6 +8,11 @@ const flash = require("connect-flash");
 const GithubStrategy = require("passport-github2").Strategy;
 const User = require("./db").User;
 const path = require("path");
+const SessionStore = require("connect-session-sequelize")(session.Store);
+const sequelizeSessionStore = new SessionStore({
+  db: db.sequelize,
+  expiration: 20000
+});
 
 const app = express();
 
@@ -16,7 +21,8 @@ app.set("view engine", "hbs");
 
 app.use(flash());
 app.use(session({
-  secret: "keyboard cat"
+  secret: "keyboard cat",
+  store: sequelizeSessionStore,
 }));
 app.use(passport.initialize());
 app.use(passport.session());

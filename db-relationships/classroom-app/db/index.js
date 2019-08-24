@@ -1,9 +1,9 @@
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize("classroom", process.env.DB_USER, process.env.DB_PASSWORD,
+const sequelize = new Sequelize("classroom", process.env.DB_USER || "root", process.env.DB_PASSWORD || "rootroot",
   {
-    dialect: process.env.DB_DIALECT,
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
+    dialect: process.env.DB_DIALECT || "mariadb",
+    host: process.env.DB_HOST || "localhost",
+    port: process.env.DB_PORT || "3306",
     pool: {
       max: 5,
       min: 0,
