@@ -1,0 +1,13 @@
+<button id="increment">increment</button>
+<div id="count">{{ counter }}</div>
+<script src="/lib/axios/axios.min.js"></script>
+<script>
+  document.getElementById("increment").addEventListener("click", updateCounter);
+
+  async function updateCounter() {
+    const url = "/api/increment";
+    let response = await axios.get(url);
+    let counterObject = response.data;
+    document.getElementById("count").innerText = counterObject.counter;
+  }
+</script>

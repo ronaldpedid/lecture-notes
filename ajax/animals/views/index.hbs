@@ -1,0 +1,26 @@
+<h1>{{title}}</h1>
+<p>Welcome to {{title}}</p>
+{{#each animals}}
+<div id="{{this.id}}">
+  {{this.name}} <button class="delete" data-id="{{this.id}}">Delete</button>
+</div>
+{{/each}}
+<script>
+  document.addEventListener("click", async (e) => {
+    if (e.target.className === "delete") {
+      const animalId = e.target.getAttribute("data-id");
+      await deleteAnimal(animalId);
+      const animal = document.getElementById(animalId);
+      animal.parentNode.removeChild(animal);
+    }
+  });
+
+  async function deleteAnimal(id) {
+    let url = "/delete/" + id;
+    let response = await fetch("/delete/" + id);
+    let isDeleted = response.json().deleted;
+
+    return isDeleted;
+  }
+
+</script>

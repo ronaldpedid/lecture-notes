@@ -1,0 +1,33 @@
+<html>
+
+<head>
+  <title>My Home Page</title>
+</head>
+
+<body>
+  <h1>Header</h1>
+  <p class="content">Paragraph</p>
+  <p>Paragraph 2</p>
+  <div id="address">
+    <div id="street">123 Main Street</div>
+  </div>
+  <div id="key"></div>
+  <div id="mousex"></div>
+  <div id="mousey"></div>
+  <script>
+    window.addEventListener("mousemove", (e) => {
+      let x = document.getElementById("mousex");
+      let y = document.getElementById("mousey");
+      x.innerText = e.pageX;
+      y.innerText = e.pageY;
+    });
+
+    document.getElementsByTagName("h1")[0].addEventListener("click", (e) => {
+      let newParagraphElement = document.createElement("p");
+      newParagraphElement.innerText = "New Paragraph";
+      document.body.appendChild(newParagraphElement);
+    });
+  </script>
+</body>
+
+</html>
